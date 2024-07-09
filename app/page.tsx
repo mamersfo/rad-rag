@@ -1,16 +1,11 @@
-import AuthButton from '@/components/AuthButton'
+import Header from '@/components/Header'
 
 export default async function Index() {
   return (
     <div className='p-4'>
-      <nav className='flex justify-between w-full'>
-        <div className='text-xl font-semibold'>Rad RAG</div>
-        <div className=''>
-          <AuthButton />
-        </div>
-      </nav>
+      <Header />
       <main>
-        <h1>Public</h1>
+        <div>Public</div>
       </main>
     </div>
   )
