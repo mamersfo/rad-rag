@@ -1,8 +1,11 @@
 'use client'
 
+import { useState } from 'react'
 import { useCompletion } from 'ai/react'
 
-export default function Completion() {
+export default function Completion({ api }: Readonly<{ api: string }>) {
+  const [endpoint, setEndpoint] = useState('/api/completion/pipe')
+
   const {
     completion,
     setCompletion,
@@ -13,7 +16,7 @@ export default function Completion() {
     isLoading,
     error,
   } = useCompletion({
-    api: '/api/completion',
+    api: endpoint,
   })
 
   const clear = () => {
@@ -21,22 +24,55 @@ export default function Completion() {
     setCompletion('')
   }
 
+  const apis = [
+    '/api/completion/stream-openai',
+    '/api/completion/pipe-openai',
+    '/api/completion/pipe-ollama',
+    '/api/completion/runnable-ollama',
+  ]
+
   return (
     <div className='flex flex-col gap-4 w-1/2 text-lg'>
-      <form onSubmit={handleSubmit}>
-        <div className='flex flex-row gap-2'>
-          <input
+      <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+        <label htmlFor='endpoint' className='form-control w-full'>
+          <div className='label'>
+            <span className='label-text'>Endpoint:</span>
+          </div>
+          <select
+            id='endpoint'
+            className='select select-bordered w-full'
+            value={endpoint}
+            onChange={(e) => setEndpoint(e.target.value)}
+          >
+            {apis.map((api, idx) => (
+              <option key={`api-${idx}`} value={api}>
+                {api}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label htmlFor='input' className='form-control w-full'>
+          <div className='label'>
+            <span className='label-text'>Prompt:</span>
+          </div>
+          <textarea
             id='input'
-            type='text'
-            className='input input-bordered w-full'
-            name='prompt'
+            className='textarea textarea-bordered'
             value={input}
+            placeholder={'Enter prompt here...'}
             onChange={handleInputChange}
+            style={{ fieldSizing: 'content' }}
           />
-          <button className='btn' type='submit' disabled={isLoading}>
-            Submit
-          </button>
-        </div>
+        </label>
+
+        <button
+          className='btn'
+          type='submit'
+          disabled={isLoading || input.length === 0}
+        >
+          Submit
+        </button>
       </form>
       {error && <div className='alert alert-error'>{error.message}</div>}
       {completion && (
