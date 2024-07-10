@@ -5,6 +5,7 @@ import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
 import { OpenAIEmbeddings } from '@langchain/openai'
 import { SupabaseVectorStore } from '@langchain/community/vectorstores/supabase'
 import { createClient } from '@/utils/supabase/server'
+import { revalidatePath } from 'next/cache'
 
 /**
  *
@@ -48,15 +49,18 @@ export default async function Page() {
       })
     })
 
-    await SupabaseVectorStore.fromDocuments(
-      langchainDocs.flat(),
-      new OpenAIEmbeddings({ openAIApiKey: process.env.OPENAI_API_KEY }),
-      {
-        client: createClient(),
-        tableName: 'documents',
-        queryName: 'match_documents',
-      }
-    )
+    const embeddings = new OpenAIEmbeddings({
+      openAIApiKey: process.env.OPENAI_API_KEY,
+      model: 'text-embedding-3-small',
+    })
+
+    await SupabaseVectorStore.fromDocuments(langchainDocs.flat(), embeddings, {
+      client: createClient(),
+      tableName: 'documents',
+      queryName: 'match_documents',
+    })
+
+    revalidatePath('/protected/documents')
   }
 
   const client = createClient()

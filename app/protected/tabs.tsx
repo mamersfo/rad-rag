@@ -11,7 +11,7 @@ export default function Tabs() {
     ['Completion', '/protected/completion'],
     ['Documents', '/protected/documents'],
     ['Search', '/protected/search'],
-    ['Generate', '/protected/generate'],
+    ['Generation', '/protected/generation'],
   ]
 
   return (
