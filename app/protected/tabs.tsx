@@ -9,6 +9,7 @@ export default function Tabs() {
 
   const sections = [
     ['Completion', '/protected/completion'],
+    ['Documents', '/protected/documents'],
     ['Search', '/protected/search'],
     ['Generate', '/protected/generate'],
   ]
