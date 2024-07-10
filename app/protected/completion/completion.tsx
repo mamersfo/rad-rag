@@ -3,15 +3,28 @@
 import { useCompletion } from 'ai/react'
 
 export default function Completion() {
-  const { completion, input, handleInputChange, handleSubmit, isLoading } =
-    useCompletion({
-      api: '/api/completion',
-    })
+  const {
+    completion,
+    setCompletion,
+    input,
+    setInput,
+    handleInputChange,
+    handleSubmit,
+    isLoading,
+    error,
+  } = useCompletion({
+    api: '/api/completion',
+  })
+
+  const clear = () => {
+    setInput('')
+    setCompletion('')
+  }
 
   return (
     <div className='flex flex-col gap-4 w-1/2 text-lg'>
       <form onSubmit={handleSubmit}>
-        <div className='flex flex-row gap-4'>
+        <div className='flex flex-row gap-2'>
           <input
             id='input'
             type='text'
@@ -25,7 +38,15 @@ export default function Completion() {
           </button>
         </div>
       </form>
-      <div>{completion}</div>
+      {error && <div className='alert alert-error'>{error.message}</div>}
+      {completion && (
+        <>
+          <div>{completion}</div>
+          <button className='btn btn-outline' onClick={clear}>
+            Clear
+          </button>
+        </>
+      )}
     </div>
   )
 }
