@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useCompletion } from 'ai/react'
 
-export default function Completion({ api }: Readonly<{ api: string }>) {
+export default function Completion() {
   const [endpoint, setEndpoint] = useState('/api/completion/pipe')
 
   const {
