@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import Header from '@/components/Header'
 
 export default async function Index() {
@@ -6,13 +7,15 @@ export default async function Index() {
     <div className='p-4'>
       <Header />
       <main className='flex flex-col items-center'>
-        <Image
-          src='/images/rad-rag-tech.png'
-          width={400}
-          height={700}
-          alt='rad-rag'
-          priority
-        />
+        <Link href='/protected/completion'>
+          <Image
+            src='/images/rad-rag-tech.png'
+            width={400}
+            height={700}
+            alt='rad-rag'
+            priority
+          />
+        </Link>
       </main>
     </div>
   )
