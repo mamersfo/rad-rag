@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useChat } from 'ai/react'
@@ -72,13 +73,22 @@ export function ChatWindow(props: {
   return (
     <div
       className={clsx(
-        'flex flex-col items-center p-4 md:p-8 rounded grow overflow-hidden',
+        'flex flex-col items-center p-4 md:p-8 rounded grow overflow-hidden gap-8',
         { border: messages.length > 0 }
       )}
     >
       <h2 className={clsx({ hidden: messages.length > 0 }, 'text-2xl')}>
         {titleText}
       </h2>
+
+      <Image
+        src='/images/rad-rag-prompt-retriever.png'
+        width={757}
+        height={123}
+        alt='rad-rag-loader'
+        priority
+      />
+
       <div
         className='flex flex-col-reverse w-full mb-4 overflow-auto transition-[flex-grow] ease-in-out'
         ref={messageContainerRef}

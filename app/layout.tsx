@@ -20,6 +20,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en' data-theme='finalist'>
+      <head>
+        <link rel='icon' href='/favicon.ico' sizes='any' />
+      </head>
       <body className={raleway.className}>{children}</body>
     </html>
   )

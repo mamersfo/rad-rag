@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { CheerioWebBaseLoader } from '@langchain/community/document_loaders/web/cheerio'
 import { Document } from '@langchain/core/documents'
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
@@ -7,31 +8,6 @@ import { SupabaseVectorStore } from '@langchain/community/vectorstores/supabase'
 import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 
-/**
- *
- * See also: https://js.langchain.com/v0.2/docs/concepts/#document-loaders
- * @returns Promise<Document<Record<string, any>>[]>
- */
-const loadDocuments = async (url: string) => {
-  const loader = new CheerioWebBaseLoader(url, {
-    selector: 'p',
-  })
-  return await loader.load()
-}
-
-/**
- *
- * See also: https://js.langchain.com/v0.2/docs/concepts/#text-splitters
- * @param docs
- */
-const splitDocuments = async (docs: Document<Record<string, any>>[]) => {
-  const textSplitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 1000,
-    chunkOverlap: 200,
-  })
-  return await textSplitter.splitDocuments(docs)
-}
-
 export default async function Page() {
   const handleSubmit = async (formData: FormData) => {
     'use server'
@@ -39,8 +15,18 @@ export default async function Page() {
     const url = formData.get('url') as string
     if (!url) return
 
-    const docs = await loadDocuments(url)
-    const splits = await splitDocuments(docs)
+    const loader = new CheerioWebBaseLoader(url, {
+      selector: 'p',
+    })
+
+    const docs = await loader.load()
+
+    const textSplitter = new RecursiveCharacterTextSplitter({
+      chunkSize: 1000,
+      chunkOverlap: 200,
+    })
+
+    const splits = await textSplitter.splitDocuments(docs)
 
     const langchainDocs = splits.map((doc) => {
       return new Document({
@@ -73,6 +59,15 @@ export default async function Page() {
 
   return (
     <div className='flex flex-col items-center p-12 gap-8'>
+      <h2 className='text-2xl'>Documents</h2>
+      <Image
+        src='/images/rad-rag-loader.png'
+        width={964}
+        height={106}
+        alt='rad-rag-loader'
+        priority
+      />
+
       <label htmlFor='url' className='form-control w-full'>
         <div className='label'>
           <span className='label-text'>Add Document:</span>

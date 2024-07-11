@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useCompletion } from 'ai/react'
 
 export default function Completion() {
-  const [endpoint, setEndpoint] = useState('/api/completion/pipe')
+  const [endpoint, setEndpoint] = useState('/api/completion/stream-openai')
 
   const {
     completion,

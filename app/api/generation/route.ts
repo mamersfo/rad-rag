@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
       
       You will provide your answer based on the context and the input from the request only.
 
-      Limit your response to 300 characters.
+      Limit your response to 500 characters.
 
       <context>
         {context}

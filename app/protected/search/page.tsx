@@ -51,6 +51,7 @@ export default async function Page({
 
   return (
     <div className='flex flex-col items-center p-12 gap-8'>
+      <h2 className='text-2xl'>Search</h2>
       <label htmlFor='url' className='form-control w-full'>
         <div className='label'>
           <span className='label-text'>Search:</span>
