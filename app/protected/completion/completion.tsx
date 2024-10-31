@@ -26,6 +26,7 @@ export default function Completion() {
 
   const apis = [
     '/api/completion/stream-openai',
+    '/api/completion/stream-xai',
     '/api/completion/pipe-openai',
     '/api/completion/pipe-ollama',
     '/api/completion/runnable-ollama',

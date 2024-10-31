@@ -12,11 +12,12 @@
     "@langchain/openai": "^0.2.1",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
-    "ai": "^3.2.19",
+    "ai": "^3.4.29",
     "cheerio": "1.0.0-rc.12",
     "clsx": "^2.1.1",
     "langchain": "^0.2.9",
     "next": "latest",
+    "openai": "^4.69.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-toastify": "^10.0.5"
