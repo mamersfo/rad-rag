@@ -1,4 +1,4 @@
-import { StreamingTextResponse, streamText } from 'ai'
+import { streamText } from 'ai'
 import { createOpenAI } from '@ai-sdk/openai'
 
 const xai = createOpenAI({
@@ -7,12 +7,12 @@ const xai = createOpenAI({
 });
 
 export async function POST(req: Request) {
-  const json = await req.json()
+  const { prompt } = await req.json()
 
   const result = await streamText({
     model: xai('grok-beta'),
-    prompt: json.prompt,
+    prompt,
   })
-  
-  return new StreamingTextResponse(result.toAIStream())
+
+  return result.toDataStreamResponse()  
 }
